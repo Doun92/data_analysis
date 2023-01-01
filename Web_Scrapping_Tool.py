@@ -9,9 +9,9 @@ import pandas as pd
 
 class Scrap_Pokepedia:
     # On appelle les variables par défaut
-    def __init__(self):
-        self.test_str = 'TEST'
+    def __init__(self, url):
+        self.url = url
         self.driver = webdriver.Firefox()
 
     def test(self):
-        print(self.test_str)
+        print(self.url)
