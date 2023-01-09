@@ -171,60 +171,187 @@ while run < 388:
         categorie = list_tr[4+len(list_trs)+2].find_element(By.TAG_NAME, "td")
     cat_def = str(categorie.get_attribute("innerHTML")).split()[-1]
     pokedex_row["categorie"] = cat_def
+    # print(pokedex_row)
 
     # Taille
-    if table_types and nav_exist:
+    if "Tailles" in list_tr[4+len(list_trs)+1+1+len(list_trs_nav) + 3].get_attribute("innerHTML"):
+        liste_tailles_exist = True
+    else:
+        liste_tailles_exist = False
+
+
+    # On se dirige vers un système bien complqiué, l'ami
+    if table_types and nav_exist and liste_tailles_exist:
+        print("Â FAIRE AU BESOIN")
+    elif table_types and nav_exist and liste_tailles_exist == False:
         taille = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
                         5].find_element(By.TAG_NAME, "td")
-    elif table_types and nav_exist == False:
+        taille_def = str(taille.get_attribute("innerHTML")).split()[0]
+        pokedex_row["taille_en_m"] = taille_def
+    elif table_types and nav_exist == False and liste_tailles_exist:
+        print("Â FAIRE AU BESOIN 2")
+    elif table_types and nav_exist == False and liste_tailles_exist == False:
         taille = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
                         4].find_element(By.TAG_NAME, "td")
-    elif table_types == False and nav_exist:
+        taille_def = str(taille.get_attribute("innerHTML")).split()[0]
+        pokedex_row["taille_en_m"] = taille_def
+    elif table_types == False and nav_exist and liste_tailles_exist:
+        liste_tailles = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) + 4].find_elements(By.TAG_NAME, "td")
+        for idx, taille in enumerate(liste_tailles):
+            # print(taille.get_attribute("innerHTML"))
+            taille_def = str(taille.get_attribute("innerHTML")).split()[0]
+            pokedex_row[f"taille_en_m_{idx+1}"] = taille_def
+    elif table_types == False and nav_exist and liste_tailles_exist == False:
         taille = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
                             3].find_element(By.TAG_NAME, "td")
+        taille_def = str(taille.get_attribute("innerHTML")).split()[0]
+        pokedex_row["taille_en_m"] = taille_def
+    elif table_types == False and nav_exist == False and liste_tailles_exist:
+        print("Â FAIRE AU BESOIN 4")
     else:
         taille = list_tr[4+len(list_trs)+3].find_element(By.TAG_NAME, "td")
-    taille_def = str(taille.get_attribute("innerHTML")).split()[0]
-    pokedex_row["taille_en_m"] = taille_def
+        taille_def = str(taille.get_attribute("innerHTML")).split()[0]
+        pokedex_row["taille_en_m"] = taille_def
+
+    # print(pokedex_row)
 
     # Poids
-    if table_types and nav_exist:
+    # On se dirige vers un système bien complqiué, l'ami
+    if table_types and nav_exist and liste_tailles_exist:
+        if "Poids" in list_tr[4+len(list_trs)+1+1+len(list_trs_nav) + 6].get_attribute("innerHTML"):
+            print("yes")
+            liste_poids_exist = True
+        else:
+            print("no")
+            liste_poids_exist = False
+        print("Â FAIRE AU BESOIN 3")
+    elif table_types and nav_exist and liste_tailles_exist == False:
+        poids = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) + 6].find_element(By.TAG_NAME, "td")
+        poids_def = str(poids.get_attribute("innerHTML")).split()[0]
+        pokedex_row["poids_en_kg"] = poids_def
+        
+    elif table_types and nav_exist == False and liste_tailles_exist:
+        print("Â FAIRE AU BESOIN 5")
+        if "Poids" in list_tr[4+len(list_trs)+1+1+len(list_trs_nav) + 5].get_attribute("innerHTML"):
+            print("yes")
+            liste_poids_exist = True
+        else:
+            print("no")
+            liste_poids_exist = False
+    elif table_types and nav_exist == False and liste_tailles_exist == False:
         poids = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
-                        6].find_element(By.TAG_NAME, "td")
-    elif table_types and nav_exist == False:
-        poids = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
-                        5].find_element(By.TAG_NAME, "td")
-    elif table_types == False and nav_exist:
-        poids = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
-                        4].find_element(By.TAG_NAME, "td")
+                         5].find_element(By.TAG_NAME, "td")
+        poids = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) + 5].find_element(By.TAG_NAME, "td")
+        poids_def = str(poids.get_attribute("innerHTML")).split()[0]
+        pokedex_row["poids_en_kg"] = poids_def
+    elif table_types == False and nav_exist and liste_tailles_exist:
+        if "Poids" in list_tr[4+len(list_trs)+1+1+len(list_trs_nav) + 3
+                              + len(liste_tailles)].get_attribute("innerHTML"):
+            liste_poids = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) + 3 + len(liste_tailles)].find_elements(By.TAG_NAME, "td")
+            for idx, poids in enumerate(liste_poids):
+                print(poids)
+                poids_def = str(poids.get_attribute("innerHTML")).split()[0]
+                pokedex_row[f"poids_en_kg{idx+1}"]=poids_def
+            liste_poids_exist = True
+        else:
+            print("no")
+            liste_poids_exist = False
+    elif table_types == False and nav_exist and liste_tailles_exist == False:
+        poids = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +4].find_element(By.TAG_NAME, "td")
+        poids_def = str(poids.get_attribute("innerHTML")).split()[0]
+        pokedex_row["poids_en_kg"] = poids_def
+    elif table_types == False and nav_exist == False and liste_tailles_exist:
+        print("Â FAIRE AU BESOIN 7")
+        if "Poids" in list_tr[4+len(list_trs)+1+1+len(list_trs_nav) + 4].get_attribute("innerHTML"):
+            print("yes")
+            liste_poids_exist = True
+        else:
+            print("no")
+            liste_poids_exist = False
     else:
+        print("Â FAIRE AU BESOIN 8")
+        if "Poids" in list_tr[4+len(list_trs)+1+1+len(list_trs_nav) + 4].get_attribute("innerHTML"):
+            print("yes")
+            liste_poids_exist = True
+        else:
+            print("no")
+            liste_poids_exist = False
         poids = list_tr[4+len(list_trs)+4].find_element(By.TAG_NAME, "td")
-    poids_def = str(poids.get_attribute("innerHTML")).split()[0]
-    pokedex_row["poids_en_kg"] = poids_def
+        poids_def = str(poids.get_attribute("innerHTML")).split()[0]
+        pokedex_row["poids_en_kg"] = taille_def
 
     #Couleur
     if table_types and nav_exist:
-        couleur = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
+        if liste_tailles_exist and liste_poids_exist:
+            print("À changer 1")
+        else:
+            couleur = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
                         14].find_element(By.TAG_NAME, "td")
+            couleur_def = str(couleur.get_attribute(
+                "innerHTML")).split(">")[-1]
+            couleur_def = couleur_def.replace("&nbsp;", "")
+            pokedex_row["couleur"] = couleur_def
     elif table_types and nav_exist == False:
-        couleur = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
+        if liste_tailles_exist and liste_poids_exist:
+            print("À changer 2")
+        else:
+            couleur = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
                         13].find_element(By.TAG_NAME, "td")
+            couleur_def = str(couleur.get_attribute(
+                "innerHTML")).split(">")[-1]
+            couleur_def = couleur_def.replace("&nbsp;", "")
+            pokedex_row["couleur"] = couleur_def
     elif table_types == False and nav_exist:
-        couleur = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
+        if liste_tailles_exist and liste_poids_exist:
+            if "Couleurs" in list_tr[4+len(list_trs)+1+1+len(list_trs_nav) + 12+2].get_attribute("innerHTML"):
+                liste_couleurs = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
+                                  12+2].find_elements(By.TAG_NAME, "img")                   
+                for idx, couleur in enumerate(liste_couleurs):
+                    print(couleur.get_attribute("innerHTML"))
+                    couleur_def = str(couleur.get_attribute(
+                        "title"))
+                    pokedex_row[f"couleur_{idx}"] = couleur_def
+                    liste_couleurs_exist = True
+            else:
+                couleur = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
+                                12+2].find_element(By.TAG_NAME, "td")
+                couleur_def = str(couleur.get_attribute(
+                    "innerHTML")).split(">")[-1]
+                couleur_def = couleur_def.replace("&nbsp;", "")
+                pokedex_row["couleur"] = couleur_def
+                liste_couleurs_exist = False
+        else:
+            couleur = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
                         12].find_element(By.TAG_NAME, "td")
+            couleur_def = str(couleur.get_attribute(
+                "innerHTML")).split(">")[-1]
+            couleur_def = couleur_def.replace("&nbsp;", "")
+            pokedex_row["couleur"] = couleur_def
     else:
-        couleur = list_tr[4+len(list_trs)+12].find_element(By.TAG_NAME, "td")
-    couleur_def = str(couleur.get_attribute("innerHTML")).split(">")[-1]
-    couleur_def = couleur_def.replace("&nbsp;", "")
-    pokedex_row["couleur"] = couleur_def
-
+        if liste_tailles_exist and liste_poids_exist:
+            print("À changer 4")
+        else:
+            couleur = list_tr[4+len(list_trs) +
+                              12].find_element(By.TAG_NAME, "td")
+            couleur_def = str(couleur.get_attribute("innerHTML")).split(">")[-1]
+            couleur_def = couleur_def.replace("&nbsp;", "")
+            pokedex_row["couleur"] = couleur_def
+    
     #Forme
+    # TODO: Voir ce qui se passe ici
+    # TODO: ça devient ingérable, régler le souci avec des fonctions
+    print(f"mon print, {pokedex_row}")
+    print(f"{liste_tailles_exist} and {liste_poids_exist} and {liste_couleurs_exist}")
     if table_types and nav_exist:
         forme_img = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
                             17].find_element(By.TAG_NAME, "td")
     elif table_types and nav_exist == False:
-        forme_img = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
-                            16].find_element(By.TAG_NAME, "td")
+        print("là")
+        if liste_tailles_exist and liste_poids_exist and liste_couleurs_exist:
+            print("ici")
+        else:    
+            forme_img = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
+                                16].find_element(By.TAG_NAME, "td")
     elif nav_exist:
         forme_img = list_tr[4+len(list_trs)+1+1+len(list_trs_nav) +
                         15].find_element(By.TAG_NAME, "td")
